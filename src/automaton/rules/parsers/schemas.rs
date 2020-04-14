@@ -8,6 +8,6 @@ pub struct RulesSchema<N> {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ConfigSchema<N> {
-    pub dim: u32,
+    pub dimensions: Vec<u32>,
     pub rules: Vec<RulesSchema<N>>,
 }

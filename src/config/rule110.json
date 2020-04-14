@@ -1,5 +1,5 @@
 {
-	"dim": 1,
+	"dimensions": [100],
 	"rules": [
 		{
 			"neighborhood": [0, 0, 0],
