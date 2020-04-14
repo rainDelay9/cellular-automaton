@@ -1,1 +1,1 @@
-# cellular-automaton-prg
+# cellular-automaton
