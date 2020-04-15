@@ -7,16 +7,16 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug unit tests in library 'cellular-automaton-prg'",
+			"name": "Debug unit tests in library 'cellular-automaton'",
 			"cargo": {
 				"args": [
 					"test",
 					"--no-run",
 					"--lib",
-					"--package=cellular-automaton-prg"
+					"--package=cellular-automaton"
 				],
 				"filter": {
-					"name": "cellular-automaton-prg",
+					"name": "cellular-automaton",
 					"kind": "lib"
 				}
 			},
