@@ -1,15 +1,15 @@
 pub use ndarray::{ArrayD, IxDyn};
 
-pub struct Space {
+pub struct Grid {
     dims: Vec<usize>,
-    space: ArrayD<u32>,
+    grid: ArrayD<u32>,
 }
 
-impl Space {
-    pub fn new(_dims: Vec<usize>, _space: ArrayD<u32>) -> Self {
-        Space {
+impl Grid {
+    pub fn new(_dims: Vec<usize>, _grid: ArrayD<u32>) -> Self {
+        Self {
             dims: _dims,
-            space: _space,
+            grid: _grid,
         }
     }
 
@@ -18,13 +18,13 @@ impl Space {
     }
 
     pub fn get_point_value(&self, point: &[usize]) -> u32 {
-        match self.space.get(IxDyn(point)) {
+        match self.grid.get(IxDyn(point)) {
             Some(val) => return *val,
             None => panic!("cannot get point {:?}", point),
         }
     }
 
     pub fn set_point(&mut self, point: &[usize]) {
-        self.space[IxDyn(point)] = 1;
+        self.grid[IxDyn(point)] = 1;
     }
 }

@@ -1,12 +1,12 @@
 use crate::automaton::automaton::Automaton;
+use crate::automaton::grid::Grid;
 use crate::automaton::rules::rules::Rules;
-use crate::automaton::space::Space;
 use exitfailure::ExitFailure;
 use ndarray::{ArrayD, IxDyn};
 use std::fmt;
 
 pub struct AutomatonBuilder {
-    space: Space,
+    grid: Grid,
     rules: Option<Rules>,
 }
 
@@ -14,7 +14,7 @@ impl AutomatonBuilder {
     /// create a new builder with given dimensions
     pub fn new(dims: Vec<usize>) -> Self {
         Self {
-            space: Space::new(dims.clone(), ArrayD::zeros(IxDyn(&dims[..]))),
+            grid: Grid::new(dims.clone(), ArrayD::zeros(IxDyn(&dims[..]))),
             rules: None,
         }
     }
@@ -26,12 +26,12 @@ impl AutomatonBuilder {
                 "cannot build an automaton with no rules",
             )));
         }
-        Ok(Automaton::new(self.space, self.rules.unwrap()))
+        Ok(Automaton::new(self.grid, self.rules.unwrap()))
     }
 
     /// add a field to the encryption data
     pub fn set_point<'a>(&'a mut self, point: &[usize]) -> &'a mut Self {
-        self.space.set_point(point);
+        self.grid.set_point(point);
         self
     }
 

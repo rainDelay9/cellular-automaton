@@ -1,13 +1,13 @@
-use super::space::Space;
+use super::grid::Grid;
 use crate::automaton::rules::rules::Rules;
 
 pub struct Automaton {
-    space: Space,
+    grid: Grid,
     rules: Rules,
 }
 
 impl Automaton {
-    pub fn new(space: Space, rules: Rules) -> Self {
-        Self { space, rules }
+    pub fn new(grid: Grid, rules: Rules) -> Self {
+        Self { grid, rules }
     }
 }

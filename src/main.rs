@@ -1,6 +1,6 @@
 pub use cellular_automaton_prg::automaton;
 pub use cellular_automaton_prg::automaton::rules::parsers::parse_rules as parse;
-pub use cellular_automaton_prg::automaton::{neighborhood, space::Space};
+pub use cellular_automaton_prg::automaton::{grid::Grid, neighborhood};
 pub use exitfailure::ExitFailure;
 use ndarray::{ArrayD, IxDyn};
 
@@ -35,10 +35,10 @@ fn main() -> Result<(), ExitFailure> {
 
     println!("{:?}\n", temperature);
 
-    let mut space = Space::new(dims.clone(), temperature);
+    let mut grid = Grid::new(dims.clone(), temperature);
     let mut point = vec![0, 1, 1, 2];
 
-    let neighborhood = neighborhood::get_neighborhood(&mut space, &mut point);
+    let neighborhood = neighborhood::get_neighborhood(&mut grid, &mut point);
     println!("neighborhood: {:?}", neighborhood);
 
     // Increase the temperature in this location

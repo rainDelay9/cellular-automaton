@@ -1,9 +1,9 @@
-use super::space::Space;
+use super::grid::Grid;
 use convert_base::Convert;
 
-pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
+pub fn get_neighborhood(grid: &mut Grid, point: &mut Vec<u32>) -> Vec<u32> {
     let mut converter = Convert::new(10, 3);
-    let dims = space.get_dims();
+    let dims = grid.get_dims();
     let num_of_dims = dims.len();
     let base: u32 = 3;
     let range = base.pow(num_of_dims as u32);
@@ -12,7 +12,7 @@ pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
         let mut offset = converter.convert::<u32, u32>(&vec![num]);
         let offset = pad_to_n_and_adjust(&mut offset, num_of_dims);
         let neighbor = add_points_on_toroid(point, &offset, &dims[..]);
-        neighborhood.push(space.get_point_value(&neighbor[..]))
+        neighborhood.push(grid.get_point_value(&neighbor[..]))
     }
     neighborhood
 }
