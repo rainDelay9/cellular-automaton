@@ -1,4 +1,4 @@
-use ndarray::{ArrayD, Dim, IxDyn, NdIndex};
+pub use ndarray::{ArrayD, IxDyn};
 
 pub struct Space {
     dims: Vec<usize>,
@@ -20,9 +20,7 @@ impl Space {
     pub fn get_point(&self, point: &[usize]) -> u32 {
         match self.space.get(IxDyn(point)) {
             Some(val) => return *val,
-            // None => panic!("could not get point!"),
-            None => println!("cannot get point {:?}", point),
+            None => panic!("cannot get point {:?}", point),
         }
-        0
     }
 }

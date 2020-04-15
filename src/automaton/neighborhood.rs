@@ -1,17 +1,5 @@
 use super::space::Space;
-
 use convert_base::Convert;
-
-fn pad_to_n_and_adjust(vec: &mut Vec<u32>, n: usize) -> Vec<i32> {
-    let mut res_vec: Vec<i32> = Vec::new();
-    for i in 0..vec.len() {
-        res_vec.push(vec[i] as i32 - 1);
-    }
-    while res_vec.len() < n {
-        res_vec.push(-1);
-    }
-    res_vec
-}
 
 pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
     let mut converter = Convert::new(10, 3);
@@ -29,17 +17,29 @@ pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
     neighborhood
 }
 
-fn add_points_on_taurus(pointA: &mut Vec<u32>, pointB: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
-    // check that all sizes are equal
-    assert_eq!(pointA.len(), pointB.len());
-    assert_eq!(pointA.len(), dims.len());
+fn pad_to_n_and_adjust(vec: &mut Vec<u32>, n: usize) -> Vec<i32> {
+    let mut res_vec: Vec<i32> = Vec::new();
+    for i in 0..vec.len() {
+        res_vec.push(vec[i] as i32 - 1);
+    }
+    while res_vec.len() < n {
+        res_vec.push(-1);
+    }
+    res_vec.reverse();
+    res_vec
+}
 
-    let mut zipped = vec![0; pointA.len()];
+fn add_points_on_taurus(point_a: &mut Vec<u32>, point_b: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
+    // check that all sizes are equal
+    assert_eq!(point_a.len(), point_b.len());
+    assert_eq!(point_a.len(), dims.len());
+
+    let mut zipped = vec![0; point_a.len()];
 
     // add two input arrays in zip
     for (rref, val) in zipped
         .iter_mut()
-        .zip(pointA.iter().zip(pointB).map(|(a, b)| *a as i32 + b))
+        .zip(point_a.iter().zip(point_b).map(|(a, b)| *a as i32 + b))
     {
         *rref = val;
     }

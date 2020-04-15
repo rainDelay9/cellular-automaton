@@ -1,13 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct RulesSchema<N> {
-    pub neighborhood: N,
+pub struct RulesSchema {
+    pub neighborhood: Vec<u32>,
     pub cell: u32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ConfigSchema<N> {
+pub struct ConfigSchema {
     pub dimensions: Vec<u32>,
-    pub rules: Vec<RulesSchema<N>>,
+    pub rules: Vec<RulesSchema>,
 }
