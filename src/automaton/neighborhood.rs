@@ -12,7 +12,7 @@ pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
         let mut offset = converter.convert::<u32, u32>(&vec![num]);
         let offset = pad_to_n_and_adjust(&mut offset, num_of_dims);
         let neighbor = add_points_on_taurus(point, &offset, &dims[..]);
-        neighborhood.push(space.get_point(&neighbor[..]))
+        neighborhood.push(space.get_point_value(&neighbor[..]))
     }
     neighborhood
 }

@@ -17,10 +17,14 @@ impl Space {
         &self.dims[..]
     }
 
-    pub fn get_point(&self, point: &[usize]) -> u32 {
+    pub fn get_point_value(&self, point: &[usize]) -> u32 {
         match self.space.get(IxDyn(point)) {
             Some(val) => return *val,
             None => panic!("cannot get point {:?}", point),
         }
+    }
+
+    pub fn set_point(&mut self, point: &[usize]) {
+        self.space[IxDyn(point)] = 1;
     }
 }
