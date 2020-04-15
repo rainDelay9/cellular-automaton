@@ -11,7 +11,7 @@ pub fn get_neighborhood(space: &mut Space, point: &mut Vec<u32>) -> Vec<u32> {
     for num in 0..range {
         let mut offset = converter.convert::<u32, u32>(&vec![num]);
         let offset = pad_to_n_and_adjust(&mut offset, num_of_dims);
-        let neighbor = add_points_on_taurus(point, &offset, &dims[..]);
+        let neighbor = add_points_on_toroid(point, &offset, &dims[..]);
         neighborhood.push(space.get_point_value(&neighbor[..]))
     }
     neighborhood
@@ -29,7 +29,7 @@ fn pad_to_n_and_adjust(vec: &mut Vec<u32>, n: usize) -> Vec<i32> {
     res_vec
 }
 
-fn add_points_on_taurus(point_a: &mut Vec<u32>, point_b: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
+fn add_points_on_toroid(point_a: &mut Vec<u32>, point_b: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
     // check that all sizes are equal
     assert_eq!(point_a.len(), point_b.len());
     assert_eq!(point_a.len(), dims.len());
