@@ -99,7 +99,7 @@ mod tests {
     }
 
     #[test]
-    fn test_rule_110_100_times() {
+    fn test_rule_110_1000_generations() {
         let rules_vec = vec![
             Rule::new(vec![0, 0, 0], 0),
             Rule::new(vec![0, 0, 1], 1),
@@ -120,11 +120,11 @@ mod tests {
 
         let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
         assert_eq!(grid, automaton.grid.grid());
-        automaton.advance_multi(100);
+        automaton.advance_multi(1000);
         let g = automaton.grid.grid();
         assert_eq!(
             g.as_slice().unwrap(),
-            [0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1]
+            [1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0]
         );
     }
 }
