@@ -1,4 +1,5 @@
 pub mod parsers;
+use crate::automaton::rules::parsers::schemas::ConfigSchema;
 
 #[derive(Debug)]
 pub struct Rules {
@@ -21,6 +22,16 @@ impl Rules {
     }
 }
 
+impl From<ConfigSchema> for Rules {
+    fn from(schema: ConfigSchema) -> Self {
+        let mut rules = Vec::new();
+        for conf in schema.rules {
+            rules.push(Rule::new(conf.neighborhood, conf.cell));
+        }
+        Self { rules }
+    }
+}
+
 #[derive(Debug)]
 pub struct Rule {
     neighborhood: Vec<u32>,
@@ -36,10 +47,10 @@ impl Rule {
     }
 
     pub fn apply(&self, _other: &Vec<u32>) -> Option<u32> {
-        match &self.neighborhood {
-            _other => Some(self.result),
-            _ => None,
+        if &self.neighborhood == _other {
+            return Some(self.result);
         }
+        None
     }
 }
 
