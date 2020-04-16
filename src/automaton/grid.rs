@@ -1,4 +1,5 @@
-pub use ndarray::{ArrayD, IxDyn};
+use crate::automaton::neighborhood::get_neighborhood;
+pub use ndarray::{iter::IndexedIter as Iterator, ArrayD, Dim, IxDyn};
 
 pub struct Grid {
     dims: Vec<usize>,
@@ -13,8 +14,12 @@ impl Grid {
         }
     }
 
-    pub fn get_dims(&self) -> &[usize] {
+    pub fn dims(&self) -> &[usize] {
         &self.dims[..]
+    }
+
+    pub fn grid(&self) -> ArrayD<u32> {
+        self.grid.clone()
     }
 
     pub fn get_point_value(&self, point: &[usize]) -> u32 {
@@ -24,7 +29,15 @@ impl Grid {
         }
     }
 
-    pub fn set_point(&mut self, point: &[usize]) {
-        self.grid[IxDyn(point)] = 1;
+    pub fn neighborhood(&self, point: Vec<usize>) -> Vec<u32> {
+        get_neighborhood(&self, &point)
+    }
+
+    pub fn set_point(&mut self, point: &[usize], value: u32) {
+        self.grid[IxDyn(point)] = value;
+    }
+
+    pub fn iter(&self) -> Iterator<u32, IxDyn> {
+        self.grid.indexed_iter()
     }
 }

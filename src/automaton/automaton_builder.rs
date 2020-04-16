@@ -1,6 +1,6 @@
-use crate::automaton::automaton::Automaton;
 use crate::automaton::grid::Grid;
 use crate::automaton::rules::rules::Rules;
+use crate::automaton::Automaton;
 use exitfailure::ExitFailure;
 use ndarray::{ArrayD, IxDyn};
 use std::fmt;
@@ -31,7 +31,7 @@ impl AutomatonBuilder {
 
     /// add a field to the encryption data
     pub fn set_point<'a>(&'a mut self, point: &[usize]) -> &'a mut Self {
-        self.grid.set_point(point);
+        self.grid.set_point(point, 1);
         self
     }
 

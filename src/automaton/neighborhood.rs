@@ -1,9 +1,9 @@
-use super::grid::Grid;
+use crate::automaton::grid::Grid;
 use convert_base::Convert;
 
-pub fn get_neighborhood(grid: &mut Grid, point: &mut Vec<u32>) -> Vec<u32> {
+pub fn get_neighborhood(grid: &Grid, point: &Vec<usize>) -> Vec<u32> {
     let mut converter = Convert::new(10, 3);
-    let dims = grid.get_dims();
+    let dims = grid.dims();
     let num_of_dims = dims.len();
     let base: u32 = 3;
     let range = base.pow(num_of_dims as u32);
@@ -29,7 +29,7 @@ fn pad_to_n_and_adjust(vec: &mut Vec<u32>, n: usize) -> Vec<i32> {
     res_vec
 }
 
-fn add_points_on_toroid(point_a: &mut Vec<u32>, point_b: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
+fn add_points_on_toroid(point_a: &Vec<usize>, point_b: &Vec<i32>, dims: &[usize]) -> Vec<usize> {
     // check that all sizes are equal
     assert_eq!(point_a.len(), point_b.len());
     assert_eq!(point_a.len(), dims.len());

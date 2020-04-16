@@ -1,3 +1,5 @@
+use crate::automaton::rules::parsers::schemas::RulesSchema;
+
 pub struct Rule {
     neighborhood: Vec<u32>,
     result: u32,
@@ -21,7 +23,7 @@ impl Rules {
         Rules { rules }
     }
 
-    fn analyze(&self, neighborhood: &Vec<u32>) -> Option<u32> {
+    pub fn apply(&self, neighborhood: &Vec<u32>) -> Option<u32> {
         for rule in &self.rules[..] {
             match rule.apply(neighborhood) {
                 Some(val) => return Some(val),
