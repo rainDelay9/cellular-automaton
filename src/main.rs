@@ -1,6 +1,6 @@
 pub use cellular_automaton_prg::automaton;
 pub use cellular_automaton_prg::automaton::rules::parsers::parse_rules as parse;
-pub use cellular_automaton_prg::automaton::rules::rules::Rules;
+pub use cellular_automaton_prg::automaton::rules::Rules;
 pub use cellular_automaton_prg::automaton::Automaton;
 pub use cellular_automaton_prg::automaton::{grid::Grid, neighborhood};
 pub use cellular_automaton_prg::utils::coordinates_counter;

@@ -1,5 +1,5 @@
 use crate::automaton::grid::Grid;
-use crate::automaton::rules::rules::Rules;
+use crate::automaton::rules::Rules;
 use crate::automaton::Automaton;
 use exitfailure::ExitFailure;
 use ndarray::{ArrayD, IxDyn};

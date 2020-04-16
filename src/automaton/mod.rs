@@ -4,9 +4,9 @@ pub mod neighborhood;
 pub mod rules;
 
 use crate::automaton::grid::Grid;
-use crate::automaton::rules::rules::Rules;
+use crate::automaton::rules::Rules;
 use crate::utils::coordinates_counter::CoordinatesCounter;
-use ndarray::{ArrayD, IxDyn};
+use ndarray::{array, ArrayD, IxDyn};
 
 #[derive(Debug)]
 pub struct Automaton {
@@ -24,7 +24,7 @@ impl Automaton {
         }
     }
 
-    pub fn advance_generation(&mut self) {
+    pub fn advance(&mut self) {
         let dims = self.grid.dims();
         let cc = CoordinatesCounter::new(&Vec::from(dims));
         let mut new_grid = Grid::new(Vec::from(dims), self.grid.grid());
@@ -37,5 +37,28 @@ impl Automaton {
         }
         self.grid = new_grid.clone();
         self.gen += 1;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::automaton::grid::Grid;
+    use crate::automaton::rules::{Rule, Rules};
+    #[test]
+    fn test_advance_generation() {
+        let rule = Rule::new(vec![1, 2, 3], 4);
+        let rules_vec = vec![rule];
+        let rules = Rules::new(rules_vec);
+        let dims = vec![3];
+        let mut grid: ArrayD<u32> = ArrayD::zeros(IxDyn(&dims[..]));
+        grid[[0]] = 1;
+        grid[[1]] = 2;
+        grid[[2]] = 3;
+
+        let mut automaton = Automaton::new(Grid::new(dims, grid), rules);
+        println!("grid 1: {:?}", automaton.grid.grid());
+        automaton.advance();
+        println!("grid 2: {:?}", automaton.grid.grid());
     }
 }
