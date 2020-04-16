@@ -37,6 +37,12 @@ impl Automaton {
         self.grid = new_grid.clone();
         self.gen += 1;
     }
+
+    pub fn advance_multi(&mut self, gens: u32) {
+        for _ in 0..gens {
+            self.advance();
+        }
+    }
 }
 
 #[cfg(test)]
@@ -89,6 +95,36 @@ mod tests {
         assert_eq!(
             g.as_slice().unwrap(),
             [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+        );
+    }
+
+    #[test]
+    fn test_rule_110_100_times() {
+        let rules_vec = vec![
+            Rule::new(vec![0, 0, 0], 0),
+            Rule::new(vec![0, 0, 1], 1),
+            Rule::new(vec![0, 1, 0], 1),
+            Rule::new(vec![0, 1, 1], 1),
+            Rule::new(vec![1, 0, 0], 0),
+            Rule::new(vec![1, 0, 1], 1),
+            Rule::new(vec![1, 1, 0], 1),
+            Rule::new(vec![1, 1, 1], 0),
+        ];
+        let rules = Rules::new(rules_vec);
+        let dims = vec![26];
+        let mut grid: ArrayD<u32> = ArrayD::zeros(IxDyn(&dims[..]));
+        grid[[5]] = 1;
+        grid[[8]] = 1;
+        grid[[12]] = 1;
+        grid[[18]] = 1;
+
+        let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
+        assert_eq!(grid, automaton.grid.grid());
+        automaton.advance_multi(100);
+        let g = automaton.grid.grid();
+        assert_eq!(
+            g.as_slice().unwrap(),
+            [0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1]
         );
     }
 }
