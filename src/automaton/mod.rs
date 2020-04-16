@@ -5,7 +5,7 @@ pub mod rules;
 
 use crate::automaton::grid::Grid;
 use crate::automaton::rules::Rules;
-use crate::utils::coordinates_counter::CoordinatesCounter;
+use crate::utils::coordinates_iterator::CoordinatesIterator;
 
 #[derive(Debug)]
 pub struct Automaton {
@@ -25,9 +25,9 @@ impl Automaton {
 
     pub fn advance(&mut self) {
         let dims = self.grid.dims();
-        let cc = CoordinatesCounter::new(&Vec::from(dims));
+        let ci = CoordinatesIterator::new(&Vec::from(dims));
         let mut new_grid = Grid::new(Vec::from(dims), self.grid.grid());
-        for coordinate in cc {
+        for coordinate in ci {
             let neighborhood = self.grid.neighborhood(coordinate.clone());
             match self.rules.apply(&neighborhood) {
                 Some(val) => new_grid.set_point(&coordinate[..], val),

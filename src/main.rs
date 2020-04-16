@@ -79,3 +79,9 @@
 
 //     Ok(())
 // }
+
+use cellular_automaton_prg::utils::coordinate_utils::string_to_coordinate;
+
+fn main() {
+    println!("{:?}", string_to_coordinate(&String::from("(1,2,3)")));
+}

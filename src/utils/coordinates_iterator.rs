@@ -1,10 +1,10 @@
-pub struct CoordinatesCounter {
+pub struct CoordinatesIterator {
     modulos: Vec<usize>,
     state: Vec<usize>,
     finished: bool,
 }
 
-impl CoordinatesCounter {
+impl CoordinatesIterator {
     pub fn new(modulos: &Vec<usize>) -> Self {
         let mut state = modulos.clone();
         for i in &mut state {
@@ -34,7 +34,7 @@ impl CoordinatesCounter {
     }
 }
 
-impl std::iter::Iterator for CoordinatesCounter {
+impl std::iter::Iterator for CoordinatesIterator {
     type Item = Vec<usize>;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -59,7 +59,7 @@ mod tests {
     #[test]
     fn test_counter() {
         let modulos = vec![5, 4, 3, 2];
-        let counter = CoordinatesCounter::new(&modulos);
+        let counter = CoordinatesIterator::new(&modulos);
         for thing in counter {
             println!("{:?}", thing);
         }
