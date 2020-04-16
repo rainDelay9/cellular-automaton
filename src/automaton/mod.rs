@@ -6,7 +6,6 @@ pub mod rules;
 use crate::automaton::grid::Grid;
 use crate::automaton::rules::Rules;
 use crate::utils::coordinates_counter::CoordinatesCounter;
-use ndarray::{array, ArrayD, IxDyn};
 
 #[derive(Debug)]
 pub struct Automaton {
@@ -45,6 +44,7 @@ mod tests {
     use super::*;
     use crate::automaton::grid::Grid;
     use crate::automaton::rules::{Rule, Rules};
+    use ndarray::{ArrayD, IxDyn};
     #[test]
     fn test_advance_generation() {
         let rule = Rule::new(vec![1, 2, 3], 4);
@@ -56,9 +56,39 @@ mod tests {
         grid[[1]] = 2;
         grid[[2]] = 3;
 
-        let mut automaton = Automaton::new(Grid::new(dims, grid), rules);
-        println!("grid 1: {:?}", automaton.grid.grid());
+        let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
+        assert_eq!(grid, automaton.grid.grid());
         automaton.advance();
-        println!("grid 2: {:?}", automaton.grid.grid());
+        let g = automaton.grid.grid();
+        assert_eq!(g.as_slice().unwrap(), [1, 4, 3]);
+    }
+    #[test]
+    fn test_rule_110() {
+        let rules_vec = vec![
+            Rule::new(vec![0, 0, 0], 0),
+            Rule::new(vec![0, 0, 1], 1),
+            Rule::new(vec![0, 1, 0], 1),
+            Rule::new(vec![0, 1, 1], 1),
+            Rule::new(vec![1, 0, 0], 0),
+            Rule::new(vec![1, 0, 1], 1),
+            Rule::new(vec![1, 1, 0], 1),
+            Rule::new(vec![1, 1, 1], 0),
+        ];
+        let rules = Rules::new(rules_vec);
+        let dims = vec![26];
+        let mut grid: ArrayD<u32> = ArrayD::zeros(IxDyn(&dims[..]));
+        grid[[5]] = 1;
+        grid[[8]] = 1;
+        grid[[12]] = 1;
+        grid[[18]] = 1;
+
+        let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
+        assert_eq!(grid, automaton.grid.grid());
+        automaton.advance();
+        let g = automaton.grid.grid();
+        assert_eq!(
+            g.as_slice().unwrap(),
+            [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+        );
     }
 }
