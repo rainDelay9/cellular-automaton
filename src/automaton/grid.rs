@@ -1,6 +1,7 @@
 use crate::automaton::neighborhood::get_neighborhood;
 pub use ndarray::{iter::IndexedIter as Iterator, ArrayD, Dim, IxDyn};
 
+#[derive(Debug, Clone)]
 pub struct Grid {
     dims: Vec<usize>,
     grid: ArrayD<u32>,

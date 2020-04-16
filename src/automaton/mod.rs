@@ -8,6 +8,7 @@ use crate::automaton::rules::rules::Rules;
 use crate::utils::coordinates_counter::CoordinatesCounter;
 use ndarray::{ArrayD, IxDyn};
 
+#[derive(Debug)]
 pub struct Automaton {
     grid: Grid,
     rules: Rules,
@@ -34,6 +35,7 @@ impl Automaton {
                 _ => continue,
             }
         }
+        self.grid = new_grid.clone();
         self.gen += 1;
     }
 }
