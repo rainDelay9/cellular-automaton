@@ -1,4 +1,8 @@
+use crate::automaton::automaton_builder::AutomatonBuilder;
+use crate::automaton::rules::parsers::parse_rules as parse;
+use crate::automaton::rules::Rules;
 use crate::automaton::Automaton;
+use crate::utils::string_to_vector;
 use exitfailure::ExitFailure;
 use failure::ResultExt;
 use std::fs;
@@ -8,29 +12,20 @@ use structopt::StructOpt;
 pub fn cli() -> Result<Automaton, ExitFailure> {
     let opt = Opt::from_args();
 
-    // get password
-    let password: String = get_password(opt.password, opt.path_to_password)
-        .with_context(|_| format!("could not determine password!"))?;
+    let data = fs::read_to_string(opt.config)?;
 
-    // get aes scheme
-    let aes_enum = aes_defs::openssl_index_to_enum(opt.scheme)
-        .with_context(|_| format!("unsupported scheme!"))?;
-    let scheme = aes::OpensslAesWrapper::new(&aes_enum);
+    let schema = parse(&data)?;
 
-    // initialize builder & encrypted-box
-    let mut ebb = EncryptedBoxBuilder::new(scheme);
-    let eb = ebb
-        .set_password(password)
-        .add_fields(&opt.fields[..])
-        .build()?;
+    // let dims = schema.dimensions;
 
-    // encrypt
-    let enc = eb
-        .encrypt()
-        .with_context(|_| format!("encryption failed!"))?;
-    println!("{}", base64::encode(&enc[..]));
+    let rules = Rules::from(&schema);
 
-    Ok(())
+    rules.verify_dimensions(schema.dimensions.len())?;
+
+    let mut ab = AutomatonBuilder::new(schema.dimensions);
+    let automaton = ab.set_rules(rules).build()?;
+
+    Ok(automaton)
 }
 
 /// This tool allows you to encrypt any number of fields
