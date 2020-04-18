@@ -48,9 +48,12 @@ impl Grid {
 
     pub fn set_point(&mut self, point: &[usize], value: u32) -> Result<(), ExitFailure> {
         if self.dims.len() != point.len() {
-            return Err(ExitFailure::from(GridError::new(
-                "added point is of wrong dimensions!",
-            )));
+            let cause = format!(
+                "added point is of wrong dimensions! expected {:?}, got {:?}",
+                self.dims, point
+            );
+
+            return Err(ExitFailure::from(GridError::new(&cause[..])));
         }
         self.grid[IxDyn(point)] = value;
         Ok(())

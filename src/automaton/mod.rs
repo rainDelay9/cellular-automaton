@@ -58,7 +58,7 @@ impl Automaton {
 
 impl fmt::Display for Automaton {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "generation {}\ngrid: {}", self.gen, self.grid)
+        write!(f, "generation {}\ngrid:\n {}", self.gen, self.grid)
     }
 }
 
