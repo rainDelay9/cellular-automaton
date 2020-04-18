@@ -1,6 +1,7 @@
 pub mod automaton_builder;
 pub mod grid;
 pub mod neighborhood;
+pub mod parsers;
 pub mod rules;
 
 use std::fmt;

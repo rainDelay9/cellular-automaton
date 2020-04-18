@@ -1,6 +1,4 @@
-pub mod parsers;
-
-use crate::automaton::rules::parsers::schemas::RulesSchema;
+use crate::automaton::parsers::schemas::RulesSchema;
 
 use exitfailure::ExitFailure;
 use std::fmt;

@@ -1,6 +1,6 @@
 use crate::automaton::automaton_builder::AutomatonBuilder;
-use crate::automaton::rules::parsers::parse_file_to_schema;
-use crate::automaton::rules::parsers::schemas::{CoordinatesSchema, DimensionsSchema, RulesSchema};
+use crate::automaton::parsers::parse_file_to_schema;
+use crate::automaton::parsers::schemas::{CoordinatesSchema, DimensionsSchema, RulesSchema};
 use crate::automaton::rules::Rules;
 use crate::automaton::Automaton;
 use exitfailure::ExitFailure;
