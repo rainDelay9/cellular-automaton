@@ -1,14 +1,12 @@
 pub mod schemas;
 
-use schemas::{ConfigSchema, CoordinatesSchema};
-pub use serde_json::Result;
+use exitfailure::ExitFailure;
+use serde::de::DeserializeOwned;
+use std::fs;
+use std::path::PathBuf;
 
-pub fn parse_rules(data: &str) -> Result<ConfigSchema> {
-    let schema: ConfigSchema = serde_json::from_str(data)?;
-    Ok(schema)
-}
-
-pub fn parse_coordinates(data: &str) -> Result<CoordinatesSchema> {
-    let schema: CoordinatesSchema = serde_json::from_str(data)?;
+pub fn parse_file_to_schema<T: DeserializeOwned>(path: &PathBuf) -> Result<T, ExitFailure> {
+    let data = fs::read_to_string(path)?;
+    let schema: T = serde_json::from_str(&data)?;
     Ok(schema)
 }

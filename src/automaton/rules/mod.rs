@@ -1,6 +1,6 @@
 pub mod parsers;
 
-use crate::automaton::rules::parsers::schemas::ConfigSchema;
+use crate::automaton::rules::parsers::schemas::RulesSchema;
 
 use exitfailure::ExitFailure;
 use std::fmt;
@@ -45,8 +45,8 @@ impl Rules {
     }
 }
 
-impl From<&ConfigSchema> for Rules {
-    fn from(schema: &ConfigSchema) -> Self {
+impl From<&RulesSchema> for Rules {
+    fn from(schema: &RulesSchema) -> Self {
         let mut rules = Vec::new();
         for conf in &schema.rules[..] {
             rules.push(Rule::new(conf.neighborhood.clone(), conf.cell));

@@ -1,27 +1,26 @@
 use crate::automaton::automaton_builder::AutomatonBuilder;
-use crate::automaton::rules::parsers::{parse_coordinates, parse_rules};
+use crate::automaton::rules::parsers::parse_file_to_schema;
+use crate::automaton::rules::parsers::schemas::{CoordinatesSchema, DimensionsSchema, RulesSchema};
 use crate::automaton::rules::Rules;
 use crate::automaton::Automaton;
 use exitfailure::ExitFailure;
-use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
 pub fn cli() -> Result<Automaton, ExitFailure> {
     let opt = Opt::from_args();
 
-    let data = fs::read_to_string(opt.path_to_config)?;
+    let rules_schema = parse_file_to_schema::<RulesSchema>(&opt.path_to_rules)?;
 
-    let schema = parse_rules(&data)?;
+    let rules = Rules::from(&rules_schema);
 
-    let rules = Rules::from(&schema);
+    let dimensions_schema = parse_file_to_schema::<DimensionsSchema>(&opt.path_to_dimensions)?;
 
-    rules.verify_dimensions(schema.dimensions.len())?;
+    rules.verify_dimensions(dimensions_schema.dimensions.len())?;
 
-    let mut ab = AutomatonBuilder::new(schema.dimensions);
+    let mut ab = AutomatonBuilder::new(dimensions_schema.dimensions);
 
-    let coordinates_data = fs::read_to_string(opt.path_to_coordinates)?;
-    let coordinates_schema = parse_coordinates(&coordinates_data)?;
+    let coordinates_schema = parse_file_to_schema::<CoordinatesSchema>(&opt.path_to_coordinates)?;
 
     for coordinate in coordinates_schema.coordinates {
         ab.set_point(&coordinate[..])?;
@@ -44,13 +43,34 @@ pub fn cli() -> Result<Automaton, ExitFailure> {
 struct Opt {
     /// Path to cellular automata config file
     /// (see config/rule110.json as an example)
-    #[structopt(long = "config", parse(from_os_str), raw(required = "true"))]
-    path_to_config: PathBuf,
+    #[structopt(
+        long = "rules",
+        short = "r",
+        parse(from_os_str),
+        raw(required = "true")
+    )]
+    path_to_rules: PathBuf,
+
+    /// Path to cellular automata config file
+    /// (see config/rule110.json as an example)
+    #[structopt(
+        long = "dimensions",
+        short = "d",
+        parse(from_os_str),
+        raw(required = "true")
+    )]
+    path_to_dimensions: PathBuf,
+
     /// Path to cpprdonates config file
     /// coordinates should have the form:
     ///     [x_1,y_1,...]
     ///     [x_2,y_2,...]
     /// in a JSON file (see config/rule110_coordinates.json as an example)
-    #[structopt(long = "coordinates", parse(from_os_str), raw(required = "true"))]
+    #[structopt(
+        long = "coordinates",
+        short = "c",
+        parse(from_os_str),
+        raw(required = "true")
+    )]
     path_to_coordinates: PathBuf,
 }
