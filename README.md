@@ -4,6 +4,8 @@ This cli enables creation and simulation of a toroidal [cellular automaton](http
 
 ## Configuring an Automaton
 
+You are provided with two examples of configuration under config/rule110 and config/game_of_life (which is set to the glider configuration - feel free to play around). Currently too large of dimensions do not print very well. This will be fixed in the future.
+
 to create your cellular automaton you need to supply it with the following configuration files:
 1. Dimensions of the board:
 
@@ -15,7 +17,7 @@ to create your cellular automaton you need to supply it with the following confi
 ```
    would give you a 3-dimensional automaton of dimensions 30x20x10.
 
-   See config/rule110_dimensions.json for reference.
+   See config/rule110/dimensions.json for reference.
 
 2. Coordinates of starting state 
 
@@ -25,11 +27,11 @@ to create your cellular automaton you need to supply it with the following confi
 }
 ```
 
-   See config/rule110_coordinates.json for reference.
+   See config/rule110/coordinates.json for reference.
 
 3. Rules - for each neighborhood its resulting middle cell.
 
-   Note that neighborhood size is calculated as 3^{num of dimensions} (you will get an error if a rule does not conform to that standard). This can be a pain in the ass for anything larger than two dimensions. I know. 
+   Note that neighborhood size is calculated as 3^{num of dimensions} (you will get an error if a rule does not conform to that standard). This can be a pain in the ass for anything larger than two dimensions. I know. See config/game_of_life/rules.json for an example of a two-dimensional rule.
 
    Another important note is that this implementation only supports "nearest neighbor"-neighborhoods, I.e only cells that share and edge or a vertex with the middle cell are considered neighboring cells.
 
@@ -72,7 +74,7 @@ to create your cellular automaton you need to supply it with the following confi
 	]
 }
 ```
-   (Also available in config/rule110_rules.json)
+   (Also available in config/rule110/rules.json)
 
 ## Building and Running
 
