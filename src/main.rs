@@ -21,7 +21,13 @@ fn main() -> Result<(), ExitFailure> {
 
         let mut selection = String::new();
         io::stdin().read_line(&mut selection)?;
-        let selection: u32 = selection.trim().parse()?;
+        let selection: u32 = match selection.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("please enter a number");
+                continue;
+            }
+        };
 
         match selection {
             1 => automaton.advance()?,
