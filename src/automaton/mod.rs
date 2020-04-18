@@ -3,9 +3,12 @@ pub mod grid;
 pub mod neighborhood;
 pub mod rules;
 
+use std::fmt;
+
 use crate::automaton::grid::Grid;
 use crate::automaton::rules::Rules;
 use crate::utils::coordinates_iterator::CoordinatesIterator;
+use exitfailure::ExitFailure;
 
 #[derive(Debug)]
 pub struct Automaton {
@@ -23,25 +26,38 @@ impl Automaton {
         }
     }
 
-    pub fn advance(&mut self) {
+    pub fn advance(&mut self) -> Result<(), ExitFailure> {
         let dims = self.grid.dims();
         let ci = CoordinatesIterator::new(&Vec::from(dims));
         let mut new_grid = Grid::new(Vec::from(dims), self.grid.grid());
         for coordinate in ci {
-            let neighborhood = self.grid.neighborhood(coordinate.clone());
+            let neighborhood = self.grid.neighborhood(coordinate.clone())?;
             match self.rules.apply(&neighborhood) {
-                Some(val) => new_grid.set_point(&coordinate[..], val),
+                Some(val) => new_grid.set_point(&coordinate[..], val)?,
                 _ => continue,
             }
         }
         self.grid = new_grid.clone();
         self.gen += 1;
+        Ok(())
     }
 
-    pub fn advance_multi(&mut self, gens: u32) {
+    pub fn advance_multi(&mut self, gens: u32) -> Result<(), ExitFailure> {
         for _ in 0..gens {
-            self.advance();
+            self.advance()?;
         }
+        Ok(())
+    }
+
+    pub fn set_point(&mut self, point: &[usize]) -> Result<(), ExitFailure> {
+        self.grid.set_point(point, 1)?;
+        Ok(())
+    }
+}
+
+impl fmt::Display for Automaton {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "generation {}\ngrid: {}", self.gen, self.grid)
     }
 }
 
@@ -52,7 +68,7 @@ mod tests {
     use crate::automaton::rules::{Rule, Rules};
     use ndarray::{ArrayD, IxDyn};
     #[test]
-    fn test_advance_generation() {
+    fn test_advance_generation() -> Result<(), ExitFailure> {
         let rule = Rule::new(vec![1, 2, 3], 4);
         let rules_vec = vec![rule];
         let rules = Rules::new(rules_vec);
@@ -64,12 +80,13 @@ mod tests {
 
         let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
         assert_eq!(grid, automaton.grid.grid());
-        automaton.advance();
+        automaton.advance()?;
         let g = automaton.grid.grid();
         assert_eq!(g.as_slice().unwrap(), [1, 4, 3]);
+        Ok(())
     }
     #[test]
-    fn test_rule_110() {
+    fn test_rule_110() -> Result<(), ExitFailure> {
         let rules_vec = vec![
             Rule::new(vec![0, 0, 0], 0),
             Rule::new(vec![0, 0, 1], 1),
@@ -90,16 +107,17 @@ mod tests {
 
         let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
         assert_eq!(grid, automaton.grid.grid());
-        automaton.advance();
+        automaton.advance()?;
         let g = automaton.grid.grid();
         assert_eq!(
             g.as_slice().unwrap(),
             [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
         );
+        Ok(())
     }
 
     #[test]
-    fn test_rule_110_1000_generations() {
+    fn test_rule_110_1000_generations() -> Result<(), ExitFailure> {
         let rules_vec = vec![
             Rule::new(vec![0, 0, 0], 0),
             Rule::new(vec![0, 0, 1], 1),
@@ -120,11 +138,12 @@ mod tests {
 
         let mut automaton = Automaton::new(Grid::new(dims, grid.clone()), rules);
         assert_eq!(grid, automaton.grid.grid());
-        automaton.advance_multi(1000);
+        automaton.advance_multi(1000)?;
         let g = automaton.grid.grid();
         assert_eq!(
             g.as_slice().unwrap(),
             [1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0]
         );
+        Ok(())
     }
 }

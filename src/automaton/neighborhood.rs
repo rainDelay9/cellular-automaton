@@ -1,7 +1,8 @@
 use crate::automaton::grid::Grid;
 use convert_base::Convert;
+use exitfailure::ExitFailure;
 
-pub fn get_neighborhood(grid: &Grid, point: &Vec<usize>) -> Vec<u32> {
+pub fn get_neighborhood(grid: &Grid, point: &Vec<usize>) -> Result<Vec<u32>, ExitFailure> {
     let mut converter = Convert::new(10, 3);
     let dims = grid.dims();
     let num_of_dims = dims.len();
@@ -12,9 +13,9 @@ pub fn get_neighborhood(grid: &Grid, point: &Vec<usize>) -> Vec<u32> {
         let mut offset = converter.convert::<u32, u32>(&vec![num]);
         let offset = pad_to_n_and_adjust(&mut offset, num_of_dims);
         let neighbor = add_points_on_toroid(point, &offset, &dims[..]);
-        neighborhood.push(grid.get_point_value(&neighbor[..]))
+        neighborhood.push(grid.get_point_value(&neighbor[..])?)
     }
-    neighborhood
+    Ok(neighborhood)
 }
 
 fn pad_to_n_and_adjust(vec: &mut Vec<u32>, n: usize) -> Vec<i32> {

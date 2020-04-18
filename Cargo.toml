@@ -1,5 +1,5 @@
 [package]
-name = "cellular-automaton-prg"
+name = "cellular-automaton"
 version = "0.1.0"
 authors = ["matan"]
 edition = "2018"

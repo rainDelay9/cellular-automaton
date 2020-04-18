@@ -51,17 +51,3 @@ impl std::iter::Iterator for CoordinatesIterator {
         ret
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_counter() {
-        let modulos = vec![5, 4, 3, 2];
-        let counter = CoordinatesIterator::new(&modulos);
-        for thing in counter {
-            println!("{:?}", thing);
-        }
-    }
-}

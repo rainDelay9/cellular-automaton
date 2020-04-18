@@ -30,17 +30,17 @@ impl AutomatonBuilder {
     }
 
     /// add a field to the encryption data
-    pub fn set_point<'a>(&'a mut self, point: &[usize]) -> &'a mut Self {
-        self.grid.set_point(point, 1);
-        self
+    pub fn set_point<'a>(&'a mut self, point: &[usize]) -> Result<&'a mut Self, ExitFailure> {
+        self.grid.set_point(point, 1)?;
+        Ok(self)
     }
 
     /// set multiple points at once
-    pub fn set_points<'a>(&'a mut self, points: &[&[usize]]) -> &'a mut Self {
+    pub fn set_points<'a>(&'a mut self, points: &[&[usize]]) -> Result<&'a mut Self, ExitFailure> {
         for point in points {
-            self.set_point(point);
+            self.set_point(point)?;
         }
-        self
+        Ok(self)
     }
 
     /// add rule

@@ -11,3 +11,8 @@ pub struct ConfigSchema {
     pub dimensions: Vec<usize>,
     pub rules: Vec<RulesSchema>,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CoordinatesSchema {
+    pub coordinates: Vec<Vec<usize>>,
+}
