@@ -1,5 +1,7 @@
 # cellular-automaton
 
-For more information about cellular atomata see: https://en.wikipedia.org/wiki/Cellular_automaton
+This cli enables creation and simulation of a toroidal [cellular automaton](https://mathworld.wolfram.com/CellularAutomaton.html "Cellular Automaton - Wolfram"). 
 
-More README to follow. Note that this implementation is on a toroid cellular automata (meaning space is very much finite and cyclical).
+to create your cellular automaton you need to supply it with the following configurations:
+1. Dimensions of the board
+2. 
