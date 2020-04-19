@@ -1,36 +1,45 @@
 {
-	"rules": [
+	"sum_rules": [],
+	"explicit_rules": [
 		{
-			"neighborhood": [0, 0, 0],
-			"cell": 0
+			"neighborhood": [0, 0],
+			"current": 0,
+			"next": 0
 		},
 		{
-			"neighborhood": [0, 0, 1],
-			"cell": 1
+			"neighborhood": [0, 1],
+			"current": 0,
+			"next": 1
 		},
 		{
-			"neighborhood": [0, 1, 0],
-			"cell": 1
+			"neighborhood": [0, 0],
+			"current": 1,
+			"next": 1
 		},
 		{
-			"neighborhood": [0, 1, 1],
-			"cell": 1
+			"neighborhood": [0, 1],
+			"current": 1,
+			"next": 1
 		},
 		{
-			"neighborhood": [1, 0, 0],
-			"cell": 0
+			"neighborhood": [1, 0],
+			"current": 0,
+			"next": 0
 		},
 		{
-			"neighborhood": [1, 0, 1],
-			"cell": 1
+			"neighborhood": [1, 1],
+			"current": 0,
+			"next": 1
 		},
 		{
-			"neighborhood": [1, 1, 0],
-			"cell": 1
+			"neighborhood": [1, 0],
+			"current": 1,
+			"next": 1
 		},
 		{
-			"neighborhood": [1, 1, 1],
-			"cell": 0
+			"neighborhood": [1, 1],
+			"current": 1,
+			"next": 0
 		}
 	]
 }

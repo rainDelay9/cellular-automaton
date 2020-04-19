@@ -1,4 +1,4 @@
-use crate::automaton::neighborhood::get_neighborhood;
+use crate::automaton::neighborhood::Neighborhood;
 use exitfailure::ExitFailure;
 pub use ndarray::{iter::IndexedIter as Iterator, ArrayD, Dim, IxDyn};
 use std::fmt;
@@ -37,13 +37,13 @@ impl Grid {
         }
     }
 
-    pub fn neighborhood(&self, point: Vec<usize>) -> Result<Vec<u32>, ExitFailure> {
+    pub fn neighborhood(&self, point: Vec<usize>) -> Result<Neighborhood, ExitFailure> {
         if self.dims.len() != point.len() {
             return Err(ExitFailure::from(GridError::new(
                 "neighborhood: base point is of wrong dimensions!",
             )));
         }
-        Ok(get_neighborhood(&self, &point)?)
+        Ok(Neighborhood::derive(&self, &point)?)
     }
 
     pub fn set_point(&mut self, point: &[usize], value: u32) -> Result<(), ExitFailure> {
