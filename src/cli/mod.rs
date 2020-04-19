@@ -21,7 +21,6 @@ pub fn cli() -> Result<Automaton, ExitFailure> {
     let coordinates_schema = parse_file_to_schema::<CoordinatesSchema>(&opt.path_to_coordinates)?;
 
     for coordinate in coordinates_schema.coordinates {
-        println!("coordinate: {:?}", coordinate);
         ab.set_point(&coordinate[..])?;
     }
     let automaton = ab.set_rules(rules).build()?;
@@ -36,7 +35,7 @@ pub fn cli() -> Result<Automaton, ExitFailure> {
 #[derive(StructOpt, Debug)]
 #[structopt(
     name = "cellular-automaton",
-    version = "0.1.7",
+    version = "2.1.4",
     author = "Matan Orland (matan.orland@gmail.com)"
 )]
 struct Opt {

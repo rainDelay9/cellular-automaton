@@ -53,6 +53,13 @@ impl From<&RulesSchema> for Rules {
     }
 }
 
+///
+/// Sum rule categories:
+/// 0 : equal
+/// 1 : larger
+/// 2 : smaller
+///
+
 pub fn parse_rule_from_schema(schema: &SumRuleSchema) -> Box<dyn Rule> {
     let sr = SumRule::new(schema.neighborhood, schema.current, schema.next);
     match schema.rule_type {
