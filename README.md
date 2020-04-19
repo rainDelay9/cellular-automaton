@@ -4,6 +4,7 @@ This cli enables creation and simulation of a toroidal [cellular automaton](http
 
 ## Configuring an Automaton
 
+You are provided with two examples of configuration under config/rule110 and config/game_of_life (which is set to the glider configuration - feel free to play around). Currently too large of dimensions do not print very well. This will be fixed in the future.
 to create your cellular automaton you need to supply it with three configuration files:
 1. Dimensions of the board:
 
@@ -15,7 +16,7 @@ to create your cellular automaton you need to supply it with three configuration
 ```
    would give you a 3-dimensional automaton of dimensions 30x20x10.
 
-   See config/rule110_dimensions.json for reference.
+   See config/rule110/dimensions.json for reference.
 
 2. Coordinates of starting state 
 
@@ -25,7 +26,7 @@ to create your cellular automaton you need to supply it with three configuration
 }
 ```
 
-   See config/rule110_coordinates.json for reference.
+   See config/rule110/coordinates.json for reference.
 
 3. Rules - for each neighborhood its resulting middle cell.
 
@@ -34,7 +35,7 @@ to create your cellular automaton you need to supply it with three configuration
   **Important note:** Both types of configurations must be present, even if unused. For instance, if all of your rules are sum-based, there still needs to be an "explicit_rules" entry in the configuration json (in this case it should be just an empty array).
   
   An explicit rule is of the form:
-  
+
 ```json
 "explicit_rules": [
 	{
