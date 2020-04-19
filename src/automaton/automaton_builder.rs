@@ -44,13 +44,13 @@ impl AutomatonBuilder {
     }
 
     /// add rule
-    pub fn add_rule<'a>(&'a mut self, rule: Rule) -> &'a mut Self {
+    pub fn add_rule<'a>(&'a mut self, rule: Box<dyn Rule>) -> &'a mut Self {
         self.rules.add(&mut vec![rule]);
         self
     }
 
     /// add rules
-    pub fn add_rules<'a>(&'a mut self, rules: &mut Vec<Rule>) -> &'a mut Self {
+    pub fn add_rules<'a>(&'a mut self, rules: &mut Vec<Box<dyn Rule>>) -> &'a mut Self {
         self.rules.add(rules);
         self
     }

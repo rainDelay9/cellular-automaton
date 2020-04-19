@@ -16,8 +16,6 @@ pub fn cli() -> Result<Automaton, ExitFailure> {
 
     let dimensions_schema = parse_file_to_schema::<DimensionsSchema>(&opt.path_to_dimensions)?;
 
-    rules.verify_dimensions(dimensions_schema.dimensions.len())?;
-
     let mut ab = AutomatonBuilder::new(dimensions_schema.dimensions);
 
     let coordinates_schema = parse_file_to_schema::<CoordinatesSchema>(&opt.path_to_coordinates)?;
