@@ -4,7 +4,7 @@ This cli enables creation and simulation of a toroidal [cellular automaton](http
 
 ## Configuring an Automaton
 
-to create your cellular automaton you need to supply it with the following configuration files:
+to create your cellular automaton you need to supply it with three configuration files:
 1. Dimensions of the board:
 
    Since this is a toroidal implementation, something like
@@ -29,50 +29,50 @@ to create your cellular automaton you need to supply it with the following confi
 
 3. Rules - for each neighborhood its resulting middle cell.
 
-   Note that neighborhood size is calculated as 3^{num of dimensions} (you will get an error if a rule does not conform to that standard). This can be a pain in the ass for anything larger than two dimensions. I know. 
-
-   Another important note is that this implementation only supports "nearest neighbor"-neighborhoods, I.e only cells that share and edge or a vertex with the middle cell are considered neighboring cells.
-
-   Example of Rule110 config:
+  Rules have two forms of configuration - explicit and sum-based.
+  
+  **Important note:** Both types of configurations must be present, even if unused. For instance, if all of your rules are sum-based, there still needs to be an "explicit_rules" entry in the configuration json (in this case it should be just an empty array).
+  
+  An explicit rule is of the form:
+  
 ```json
-{
-	"rules": [
-		{
-			"neighborhood": [0, 0, 0],
-			"cell": 0
-		},
-		{
-			"neighborhood": [0, 0, 1],
-			"cell": 1
-		},
-		{
-			"neighborhood": [0, 1, 0],
-			"cell": 1
-		},
-		{
-			"neighborhood": [0, 1, 1],
-			"cell": 1
-		},
-		{
-			"neighborhood": [1, 0, 0],
-			"cell": 0
-		},
-		{
-			"neighborhood": [1, 0, 1],
-			"cell": 1
-		},
-		{
-			"neighborhood": [1, 1, 0],
-			"cell": 1
-		},
-		{
-			"neighborhood": [1, 1, 1],
-			"cell": 0
-		}
-	]
-}
+"explicit_rules": [
+	{
+		"neighborhood": [0, 0, 1, 0, 1, 0, 1, 0],
+		"current": 0,
+		"next": 1
+	},
+]
 ```
-   (Also available in config/rule110_rules.json)
+  
+  where "neighberhood" is a vector of the encompassing coordinate values of size 3^{dimensions} of the immediate neighbors, "current" is the current value of the cell, and "next" is the value of the cell in the next generation.
+  
+  A sum-based rule is of the form:
+```json
+"sum_rules": [
+	{
+		"rule_type": 2,
+		"neighborhood": 4,
+		"current": 0,
+		"next": 1
+	},
+]
+ ```
+where "neighborhood" is the sum of neighbor values, "current" is the current cell value and "next" is the cell's value in the next generation.
+
+"rule_type" is one of three options:
+
+0. equals - this rule will be applied if the neighborhood size equals the rule's neighborhood size.
+1. larger - this rule will be applied if the neighborhood size is larger than the rule's neighborhood size.
+2. smaller - this rule will be applied if the neighborhood size is smaller than the rule's neighborhood size.
+
+Thus, the above rule says that if the current cell value is 0, and there are *less than* 4 activated cells in its neighborhood, then in the next generation the cell's value is 1.
+
+Make sure your rules don't collide, as this can lead to unexpected behavior (the first rule that matches will be apllied).
+
+For examples of config files you can go to config/game_of_life/rules_explicit.json for an example of explicit rule configuration, and config/game_of_life/rules_sum.json for an example of a sum-based rule configuration. You can also mix and match (have both sum-based and explicit rules).
+
+In Conway's Game of Life you can see the big advantage of having sum-based rules. (5 rules as opposed to 310 in the explicit case)
 
 ## Building and Running
 
