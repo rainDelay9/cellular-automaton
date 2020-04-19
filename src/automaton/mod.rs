@@ -3,6 +3,7 @@ pub mod grid;
 pub mod neighborhood;
 pub mod parsers;
 pub mod rules;
+pub mod rules_new;
 
 use std::fmt;
 

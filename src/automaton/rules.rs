@@ -79,22 +79,6 @@ impl Rule {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_single_rule() {
-        let rule = Rule::new(vec![1, 2, 3], 4);
-        let rules_vec = vec![rule];
-        let rules = Rules::new(rules_vec);
-        match rules.apply(&vec![1, 2, 3]) {
-            Some(val) => assert_eq!(val, 4),
-            None => assert!(false),
-        }
-    }
-}
-
 #[derive(Debug)]
 struct DimensionsError {
     cause: String,
@@ -115,3 +99,19 @@ impl fmt::Display for DimensionsError {
 }
 
 impl std::error::Error for DimensionsError {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_single_rule() {
+        let rule = Rule::new(vec![1, 2, 3], 4);
+        let rules_vec = vec![rule];
+        let rules = Rules::new(rules_vec);
+        match rules.apply(&vec![1, 2, 3]) {
+            Some(val) => assert_eq!(val, 4),
+            None => assert!(false),
+        }
+    }
+}
