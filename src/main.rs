@@ -6,13 +6,11 @@ use std::io::{self, Write};
 fn main() -> Result<(), ExitFailure> {
     let mut automaton = cli()?;
 
-    let mut play = true;
-
-    while play {
+    loop {
         println!("");
         println!("{}\n", automaton);
         println!("Select an option:");
-        println!("1: advance generation");
+        println!("1: advance single generation");
         println!("2: advance many generations");
         println!("3: exit");
         println!("");
@@ -34,7 +32,7 @@ fn main() -> Result<(), ExitFailure> {
             2 => advance_many_generations_handler(&mut automaton)?,
             3 => {
                 println!("\nGoodbye!\n");
-                play = false;
+                break;
             }
             _ => println!("please select from one of the options"),
         }
