@@ -4,6 +4,8 @@ This cli enables creation and simulation of a toroidal [cellular automaton](http
 
 ![Conway's GoL gif](https://upload.wikimedia.org/wikipedia/commons/4/4f/Animated_Hwss.gif)
 
+Heavyweight spaceship (above) is a periodic configuration in GoL. It can be seen in one of the provided example configs.
+
 ## Configuring an Automaton
 
 You are provided with two examples of configuration under config/rule110 and config/game_of_life (which is set to the glider configuration - feel free to play around). Currently too large of dimensions do not print very well. This will be fixed in the future.
