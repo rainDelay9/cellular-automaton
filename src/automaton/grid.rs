@@ -66,10 +66,16 @@ impl Grid {
 
 impl fmt::Display for Grid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.grid)
+        let mut fmt = format!("\n{}", self.grid);
+        fmt = fmt.replace("[", "");
+        fmt = fmt.replace("[", "");
+        fmt = fmt.replace("]", "");
+        fmt = fmt.replace("1", "\x1b[32m▊\x1b");
+        fmt = fmt.replace("0", "\x1b[90m▊\x1b");
+        fmt = fmt.replace(",", "");
+        write!(f, "{}{}", fmt, "[0m")
     }
 }
-
 #[derive(Debug)]
 struct GridError {
     cause: String,
