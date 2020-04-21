@@ -89,7 +89,7 @@ cargo build [--release]
 ### CLI
 use
 ```
-path-to-encrypted-box-bin/encrypted-box --help
+path-to-cellular-automaton-bin/cellular-automaton --help
 ```
 for instructions on how to use the cli,
 or
