@@ -26,7 +26,15 @@ to create your cellular automaton you need to supply it with three configuration
 
 ```json
 {
-	"coordinates": [[0], [1], [15], [20], [11], [12], [13]]
+	"coordinates": [
+		[0, 15, 8],
+		[1, 1, 6],
+		[15, 5, 0],
+		[20, 17, 4],
+		[11, 11, 1],
+		[12, 11, 3],
+		[13, 0, 7]
+	]
 }
 ```
 
@@ -50,7 +58,7 @@ to create your cellular automaton you need to supply it with three configuration
 ]
 ```
   
-  where "neighberhood" is a vector of the encompassing coordinate values of size 3^{dimensions} of the immediate neighbors, "current" is the current value of the cell, and "next" is the value of the cell in the next generation.
+  where "neighberhood" is a vector of the encompassing coordinate values of size (3^{dimensions} - 1) of the immediate neighbors, "current" is the current value of the cell, and "next" is the value of the cell in the next generation.
   
   A sum-based rule is of the form:
 ```json
